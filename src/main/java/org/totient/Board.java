@@ -8,6 +8,7 @@ public class Board {
   private int elapsedTurns = -1;
 
   public Board(int n) {
+    elapsedTurns = n * n;
     grid = new Denotation[n][n];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
@@ -17,9 +18,9 @@ public class Board {
   }
 
   private Board(Denotation[][] g, int elapsedTurns) {
+    this.elapsedTurns = elapsedTurns;
     int n = g.length;
     this.grid = new Denotation[n][n];
-    this.elapsedTurns = elapsedTurns;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         grid[i][j] = g[i][j];
@@ -64,11 +65,11 @@ public class Board {
   public int toSingleDimension(int... arr) {
     return ((arr[0] + 1) * size()) - (size() - (arr[1] + 1));
   }
-  
+
   public int[] toDoubleDimension(int p) {
     return new int[]{(p - 1) / size(), (p - 1) % size()};
   }
-  
+
   boolean isMaxsTurn() {
     return elapsedTurns % 2 == 1;
   }
@@ -76,7 +77,7 @@ public class Board {
   Board getState() {
     return new Board(grid, elapsedTurns);
   }
-  
+
   @Override
   public String toString() {
     return String.format("\n%s | %s | %s \n\n"
