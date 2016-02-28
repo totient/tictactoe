@@ -35,6 +35,19 @@ public class Board {
   int getElapsedTurns() {
     return elapsedTurns;
   }
+
+  public boolean isPickInvalid(int p) {
+    if ((p < 1) || p > (size() * size())) {
+      return true;
+    }
+
+    int[] pdd = toDoubleDimension(p);
+    return grid[pdd[0]][pdd[1]] != EMPTY;
+  }
+
+  public int[] toDoubleDimension(int p) {
+    return new int[]{(p - 1) / size(), (p - 1) % size()};
+  }
   
   @Override
   public String toString() {
