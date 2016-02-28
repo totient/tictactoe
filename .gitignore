@@ -12,3 +12,5 @@
 hs_err_pid*
 /tictactoe/nbproject/private/
 /nbproject/private/
+/nbproject/
+/target/
