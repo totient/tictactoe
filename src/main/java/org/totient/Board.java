@@ -16,6 +16,17 @@ public class Board {
     }
   }
 
+  private Board(Denotation[][] g, int elapsedTurns) {
+    int n = g.length;
+    this.grid = new Denotation[n][n];
+    this.elapsedTurns = elapsedTurns;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        grid[i][j] = g[i][j];
+      }
+    }
+  }
+
   public Denotation cell(int i, int j) {
     return grid[i][j];
   }
@@ -50,8 +61,20 @@ public class Board {
     return grid[pdd[0]][pdd[1]] != EMPTY;
   }
 
+  public int toSingleDimension(int... arr) {
+    return ((arr[0] + 1) * size()) - (size() - (arr[1] + 1));
+  }
+  
   public int[] toDoubleDimension(int p) {
     return new int[]{(p - 1) / size(), (p - 1) % size()};
+  }
+  
+  boolean isMaxsTurn() {
+    return elapsedTurns % 2 == 1;
+  }
+
+  Board getState() {
+    return new Board(grid, elapsedTurns);
   }
   
   @Override
