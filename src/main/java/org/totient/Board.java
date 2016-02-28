@@ -28,8 +28,13 @@ public class Board {
     return grid[i][j] == EMPTY;
   }
 
-  void updateCell(int[] pick, Denotation denot) {
-    grid[pick[0]][pick[1]] = denot;
+  void updateCell(int[] p, Denotation denot) {
+    grid[p[0]][p[1]] = denot;
+    elapsedTurns--;
+  }
+
+  void clearCell(int[] p) {
+    grid[p[0]][p[1]] = EMPTY;
   }
 
   int getElapsedTurns() {
