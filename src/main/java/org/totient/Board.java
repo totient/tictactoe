@@ -5,6 +5,7 @@ import static org.totient.Denotation.EMPTY;
 public class Board {
 
   private Denotation[][] grid = null;
+  private int elapsedTurns = -1;
 
   public Board(int n) {
     grid = new Denotation[n][n];
@@ -29,6 +30,10 @@ public class Board {
 
   void updateCell(int[] pick, Denotation denot) {
     grid[pick[0]][pick[1]] = denot;
+  }
+
+  int getElapsedTurns() {
+    return elapsedTurns;
   }
   
   @Override
