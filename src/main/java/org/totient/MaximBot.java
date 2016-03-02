@@ -9,5 +9,10 @@ public class MaximBot implements Bot {
     int[] p = Minimax.INSTANCE.minimax(board, 2, CROSS);
     return new int[]{p[1], p[2]};
   }
-  
+
+  @Override
+  public Denotation getDenot() {
+    return CROSS;
+  }
+
 }

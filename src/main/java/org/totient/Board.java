@@ -22,9 +22,7 @@ public class Board {
     int n = g.length;
     this.grid = new Denotation[n][n];
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        grid[i][j] = g[i][j];
-      }
+      System.arraycopy(g[i], 0, grid[i], 0, n);
     }
   }
 
@@ -68,10 +66,6 @@ public class Board {
 
   public int[] toDoubleDimension(int p) {
     return new int[]{(p - 1) / size(), (p - 1) % size()};
-  }
-
-  boolean isMaxsTurn() {
-    return elapsedTurns % 2 == 1;
   }
 
   Board getState() {

@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class Player implements Bot {
 
+  private final Denotation denot;
+
+  public Player(Denotation d) {
+    denot = d;
+  }
+  
   @Override
   public int[] pick(Board board) {
     Scanner scan = new Scanner(System.in);
@@ -15,4 +21,9 @@ public class Player implements Bot {
     return board.toDoubleDimension(p);
   }
 
+  @Override
+  public Denotation getDenot() {
+    return denot;
+  }
+  
 }
