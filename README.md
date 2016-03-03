@@ -5,3 +5,5 @@
  - Download the application from the link above, or https://abbr.herokuapp.com/_UqmtBQ0
  - Go to the directory where you downloaded the JAR
  - Run the command, `java -jar tictactoe.jar`
+
+Note: Requires Java 8.
