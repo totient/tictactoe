@@ -13,41 +13,82 @@ public class Minimax {
   }
 
   public int[] minimax(Board board, int depth, Denotation denot) {
-    
+
     int value;
-    int[] suggestion = new int[]{-1,-1};
-    
+    int[] suggestion = new int[]{-1, -1};
+
     int hValue = (denot.isMaximising()) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-    
+
     List<int[]> picks = nextPossPicks(board);
 
     if (depth <= 0 || picks.isEmpty()) {
-      hValue = evaluate(board);
+      hValue = Evaluatr.evaluate(board);
     } else {
       for (int[] p : picks) {
-        
+
         board.updateCell(p, denot);
-        
+
         if (denot.isMaximising()) {
-          value = minimax(board, depth - 1, NOUT)[0];
+          value = minimax(board, depth - 1, NOUT)[2];
           if (value > hValue) {
             hValue = value;
             suggestion[0] = p[0];
             suggestion[1] = p[1];
           }
         } else {
-          value = minimax(board, depth - 1, CROSS)[0];
+          value = minimax(board, depth - 1, CROSS)[2];
           if (value < hValue) {
             hValue = value;
             suggestion[0] = p[0];
             suggestion[1] = p[1];
           }
         }
-        
+
         board.clearCell(p);
       }
     }
-    return new int[]{hValue, suggestion[0], suggestion[1]};
+    return new int[]{suggestion[0], suggestion[1], hValue};
+  }
+
+  public int[] minimaxPruned(Board board, int depth, Denotation denot,
+          int alpha, int beta) {
+
+    int value;
+    int[] suggestion = new int[]{-1, -1};
+    int hValue = (denot.isMaximising()) ? alpha : beta;
+
+    List<int[]> picks = nextPossPicks(board);
+
+    if (depth <= 0 || picks.isEmpty()) {
+      hValue = Evaluatr.evaluate(board);
+
+    } else {
+      for (int[] p : picks) {
+
+        board.updateCell(p, denot);
+
+        if (denot.isMaximising()) {
+          value = minimaxPruned(board, depth - 1, NOUT, alpha, beta)[2];
+          if (value > alpha) {
+            hValue = alpha = value;
+            suggestion[0] = p[0];
+            suggestion[1] = p[1];
+          }
+        } else {
+          value = minimaxPruned(board, depth - 1, CROSS, alpha, beta)[2];
+          if (value < beta) {
+            hValue = beta = value;
+            suggestion[0] = p[0];
+            suggestion[1] = p[1];
+          }
+        }
+
+        board.clearCell(p);
+        if (alpha >= beta) break;
+      }
+    }
+    
+    return new int[]{suggestion[0], suggestion[1], hValue};    
   }
 
   private List<int[]> nextPossPicks(Board board) {
@@ -64,67 +105,4 @@ public class Minimax {
     return picks;
   }
 
-  private int evaluate(Board board) {
-    int score = 0;
-    int[][][] possTriples = new int[][][]{
-                                          {{0, 0}, {0, 1}, {0, 2}}, // 1st row
-                                          {{1, 0}, {1, 1}, {1, 2}}, // 2nd row
-                                          {{2, 0}, {2, 1}, {2, 2}}, // 3rd row
-                                          {{0, 0}, {1, 0}, {2, 0}}, // 1st col
-                                          {{0, 1}, {1, 1}, {2, 1}}, // 2nd col
-                                          {{0, 2}, {1, 2}, {2, 2}}, // 3rd col
-                                          {{0, 0}, {1, 1}, {2, 2}}, // diagonal
-                                          {{0, 2}, {1, 1}, {2, 0}}, // flipped diagonal
-                                    };
-    
-    for(int i = 0; i < 8; i++) {
-      score += evaluateTriple(board, possTriples[i]);
-    }
-    return score;
-  }
-  
-  
-  /**
-   * The heuristic method to evaluate triple
-   */
-  private int evaluateTriple(Board board, int[]... possTriple) {    
-
-    int score = 0;
-    for(int i = 0; i < 3; i++) {
-      int[] couple = possTriple[i];
-
-      switch (i) {
-        case 0: {
-          if (board.cell(couple[0], couple[1]) == CROSS) {        
-            score = 1;
-          } else if (board.cell(couple[0], couple[1]) == NOUT) {
-            score = -1;        
-          }
-          break;
-        }
-        
-        case 1: {
-          if (board.cell(couple[0], couple[1]) == CROSS) {                    
-            score = (score == 1) ? 10 : (score == -1) ? 0 : 1;
-          } else if (board.cell(couple[0], couple[1]) == NOUT) {
-            score = (score == -1) ? -10 : (score == 1) ? 0 : -1;
-          }
-          if (score == 0) return 0;
-          break;
-        }
-        
-        default: {
-          if (board.cell(couple[0], couple[1]) == CROSS) {                    
-            score = (score > 0) ? score*10 : (score < 0) ? 0 : 1;
-          } else if (board.cell(couple[0], couple[1]) == NOUT) {
-            score = (score < 0) ? score*10 : (score > 0) ? 0 : -1;
-          }
-          break;
-        }
-      }
-    }
-
-    return score;
-  }
-  
 }

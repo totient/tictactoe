@@ -47,20 +47,23 @@ public class TicTacToe {
       if (isBotsTurn(p1)) {
         int[] myPickInDD = p1.pick(board.getState());
         turn(myPickInDD, p1.getDenot());
+        winner = hasWon(p1.getDenot());
       } else {
         int[] urPickInDD = p2.pick(board.getState());
         turn(urPickInDD, p2.getDenot());
+        winner = hasWon(p1.getDenot());
       }
       
-      printBoard();
+      printBoard();      
       
-      if(isOver()) {
-        out.println("Draw.\n");
-      } else if (winner != EMPTY){
+      if(winner != EMPTY) {
         out.printf("%s has won.\n\n", 
-                (winner == p2.getDenot()) ? "Player" : "Bot");
+                (winner == p2.getDenot()) ? "Player" : "Bot");                  
         break;
+      } else if(isOver()){       
+        out.println("Draw.\n");
       }
+      
     }
   }
 
@@ -83,7 +86,6 @@ public class TicTacToe {
 
   private void turn(int[] pick, Denotation denot) {
     board.updateCell(pick, denot);
-    winner = hasWon(denot);
   }
 
   private boolean isBotsTurn(Bot bot) {

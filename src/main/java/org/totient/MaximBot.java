@@ -1,6 +1,7 @@
 package org.totient;
 
 import java.io.PrintStream;
+import java.util.concurrent.ThreadLocalRandom;
 import static org.totient.Denotation.CROSS;
 
 public class MaximBot implements Bot {
@@ -13,9 +14,13 @@ public class MaximBot implements Bot {
   
   @Override
   public int[] pick(Board board) {
-    int[] p = Minimax.INSTANCE.minimax(board, 2, CROSS);
-    out.printf("Maximbot turn: %d\n", board.toSingleDimension(p[1], p[2]));    
-    return new int[]{p[1], p[2]};
+    int[] p = (board.getElapsedTurns() == 9)
+            ? board.toDoubleDimension(ThreadLocalRandom.current().nextInt(1, 10))
+//            : Minimax.INSTANCE.minimax(board, 2, CROSS);
+            : Minimax.INSTANCE.minimaxPruned(board, 2, CROSS, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    out.printf("Maximbot turn: %d\n", board.toSingleDimension(p[0], p[1]));    
+    return new int[]{p[0], p[1]};
   }
 
   @Override
