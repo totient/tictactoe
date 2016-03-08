@@ -6,4 +6,12 @@
  - Go to the directory where you downloaded the JAR
  - Run the command, `java -jar tictactoe.jar`
 
-Note: Requires Java 8.
+Note: Requires Java 8
+
+### Use the keys as in here, to pick the cell
+
+1 &nbsp; |  &nbsp; 2 &nbsp; | &nbsp; 3
+
+4 &nbsp; |  &nbsp; 5 &nbsp; | &nbsp; 6
+
+7 &nbsp; |  &nbsp; 8 &nbsp; | &nbsp; 9
