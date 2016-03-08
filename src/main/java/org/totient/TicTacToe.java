@@ -41,7 +41,7 @@ public class TicTacToe {
   }
 
   public void start(Bot p1, Bot p2) {
-    printBoard();
+    printBoardwithHints();
     
     while (!isOver()) {
       if (isBotsTurn(p1)) {
@@ -70,7 +70,11 @@ public class TicTacToe {
   }
   
   private void printBoard() {
-    out.println(board);
+    out.println(board.getLayout());
+  }
+
+  private void printBoardwithHints() {
+    out.println(board.getLayoutWithHints());
   }
 
   private boolean isOver() {

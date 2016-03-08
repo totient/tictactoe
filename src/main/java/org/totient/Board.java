@@ -72,14 +72,23 @@ public class Board {
     return new Board(grid, elapsedTurns);
   }
 
-  @Override
-  public String toString() {
+  String getLayout() {
     return String.format("\n%s | %s | %s \n\n"
             + "%s | %s | %s \n\n"
             + "%s | %s | %s \n\n",
             grid[0][0], grid[0][1], grid[0][2],
             grid[1][0], grid[1][1], grid[1][2],
             grid[2][0], grid[2][1], grid[2][2]);
+  }
+
+  String getLayoutWithHints() {
+    return String.format("\n                   Hint:\n"
+            + "%s | %s | %s          %s | %s | %s\n\n"
+            + "%s | %s | %s          %s | %s | %s\n\n"
+            + "%s | %s | %s          %s | %s | %s\n\n",
+            grid[0][0], grid[0][1], grid[0][2], 1, 2, 3,
+            grid[1][0], grid[1][1], grid[1][2], 4, 5, 6,
+            grid[2][0], grid[2][1], grid[2][2], 7, 8, 9);
   }
 
 }
