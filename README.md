@@ -8,7 +8,8 @@
 
 Note: Requires Java 8
 
-### Use the keys as in here, to pick the cell
+### Playing Instructions
+Use these keys, as shown in the layout below, to pick a cell
 
 1 &nbsp; |  &nbsp; 2 &nbsp; | &nbsp; 3
 
