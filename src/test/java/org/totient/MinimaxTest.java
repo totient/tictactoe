@@ -11,8 +11,8 @@ public class MinimaxTest {
   public void testDraw() {
     PrintStream out = NullPrintStream.INSTANCE;
     
-    Bot p1 = new MaximBot(out);
-    Bot p2 = new MinimBot(out);
+    IPlayer p1 = new MaximBot(out);
+    IPlayer p2 = new MinimBot(out);
     TicTacToe game = new TicTacToe(out);    
     
     game.reset();

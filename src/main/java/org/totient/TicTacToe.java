@@ -12,7 +12,7 @@ public class TicTacToe {
   private Board board = null;
   private Denotation winner = EMPTY;
   private final PrintStream out;
-  
+
   private static final int[] WINS = {
     0b111000000, 0b000111000, 0b000000111, // rows
     0b100100100, 0b010010010, 0b001001001, // cols
@@ -23,56 +23,53 @@ public class TicTacToe {
   }
 
   public static void main(String[] args) {
-    
+
     boolean cont;
     Scanner scan = new Scanner(System.in);
-    TicTacToe game = new TicTacToe(System.out);    
-    
-    do {     
-      Bot p1 = game.randomTurn() == 1 ? new MaximBot(game.out) : new MinimBot(game.out);
-      Bot p2 = new Player(p1.getDenot() == CROSS ? NOUT : CROSS, game.out);        
+    TicTacToe game = new TicTacToe(System.out);
+
+    do {
+      IPlayer bot = game.randomTurn() == 1 ? new MaximBot(game.out) : new MinimBot(game.out);
+      IPlayer player = new Player(bot.getDenot() == CROSS ? NOUT : CROSS, game.out);
       game.reset();
-      game.start(p1, p2);    
+      game.start(bot, player);
       game.out.print("Do you wish to continue, (y/n)? ");
-      cont = scan.next().equalsIgnoreCase("y");            
-      
+      cont = scan.next().equalsIgnoreCase("y");
+
     } while (cont);
 
   }
 
-  public void start(Bot p1, Bot p2) {
+  public void start(IPlayer bot, IPlayer player) {
     printBoardwithHints();
-    
+
     while (!isOver()) {
-      if (isBotsTurn(p1)) {
-        int[] myPickInDD = p1.pick(board.getState());
-        turn(myPickInDD, p1.getDenot());
-        winner = hasWon(p1.getDenot());
-      } else {
-        int[] urPickInDD = p2.pick(board.getState());
-        turn(urPickInDD, p2.getDenot());
-        winner = hasWon(p1.getDenot());
-      }
       
-      printBoard();      
-      
-      if(winner != EMPTY) {
-        out.printf("%s has won.\n\n", 
-                (winner == p2.getDenot()) ? "Player" : "Bot");                  
+      IPlayer pl = isBotsTurn(bot) ? bot : player;
+      int[] pick = pl.pick(board.getState());
+      turn(pick, pl.getDenot());
+
+      printBoard();
+
+      winner = hasWon(pl.getDenot());
+      if (winner != EMPTY) {
+        out.printf("%s has won.\n\n",
+                (winner == player.getDenot()) ? "Player" : "Bot");
         break;
-      } else if(isOver()){       
-        out.println("Draw.\n");
+      } else if (isOver() 
+              || !(isBotsTurn(bot) || player.shudCont(board.getState()))) {
+        out.println("Draw.\n\n");
         break;
       }
-      
+
     }
   }
 
   public void reset() {
     board = new Board(3);
-    winner = EMPTY;  
+    winner = EMPTY;
   }
-  
+
   private void printBoard() {
     out.println(board.getLayout());
   }
@@ -89,15 +86,15 @@ public class TicTacToe {
     board.updateCell(pick, denot);
   }
 
-  private boolean isBotsTurn(Bot bot) {
+  private boolean isBotsTurn(IPlayer bot) {
     int et = board.getElapsedTurns();
     return bot.getDenot() == CROSS ? et % 2 == 1 : et % 2 == 0;
   }
 
   private int randomTurn() {
     return ThreadLocalRandom.current().nextInt(2);
-  }  
-  
+  }
+
   private Denotation hasWon(Denotation denot) {
     int pattern = 0b000000000;  // 9-bit pattern for the 9 cells
     int s = board.size();

@@ -2,8 +2,9 @@ package org.totient;
 
 import java.io.PrintStream;
 import java.util.Scanner;
+import static org.totient.Denotation.NOUT;
 
-public class Player implements Bot {
+public class Player implements IPlayer {
 
   private final Denotation denot;
   private final PrintStream out;
@@ -30,6 +31,14 @@ public class Player implements Bot {
   @Override
   public Denotation getDenot() {
     return denot;
+  }
+
+  public boolean shudCont(Board board) {
+    if(denot.isMaximising())
+      return board.getElapsedTurns() > 1;
+
+    int[] p = Minimax.INSTANCE.minimax(board, 2, NOUT);
+    return p[2] != 0;
   }
   
 }
