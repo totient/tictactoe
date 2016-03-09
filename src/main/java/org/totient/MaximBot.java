@@ -28,7 +28,7 @@ public class MaximBot implements IPlayer {
   }
 
   @Override
-  public boolean shudCont(Board board) {
+  public boolean shouldCont(Board board) {
     return true;
   }
 

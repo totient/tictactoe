@@ -56,8 +56,8 @@ public class TicTacToe {
         out.printf("%s has won.\n\n",
                 (winner == player.getDenot()) ? "Player" : "Bot");
         break;
-      } else if (isOver() 
-              || !(isBotsTurn(bot) || player.shudCont(board.getState()))) {
+      } else if (isOver()
+              || !(isBotsTurn(bot) || player.shouldCont(board.getState()))) {
         out.println("Draw.\n\n");
         break;
       }

@@ -33,12 +33,9 @@ public class Player implements IPlayer {
     return denot;
   }
 
-  public boolean shudCont(Board board) {
-    if(denot.isMaximising())
-      return board.getElapsedTurns() > 1;
-
-    int[] p = Minimax.INSTANCE.minimax(board, 2, NOUT);
-    return p[2] != 0;
+  @Override
+  public boolean shouldCont(Board board) {
+    return denot.isMaximising() ? (board.getElapsedTurns() > 1) : true;
   }
   
 }
