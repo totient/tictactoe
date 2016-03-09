@@ -91,14 +91,4 @@ public class Board {
             grid[2][0], grid[2][1], grid[2][2], 7, 8, 9);
   }
 
-  void fillEmpty(Denotation denot) {
-    for (int i = 0; i<grid.length; i++) {
-      for (int j = 0; j<grid.length; j++) {
-        if(grid[i][j] == EMPTY) {
-          grid[i][j] = denot;
-        }
-      }
-    }
-  }
-
 }
