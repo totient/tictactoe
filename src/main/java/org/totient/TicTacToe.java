@@ -60,8 +60,9 @@ public class TicTacToe {
         out.printf("%s has won.\n\n", 
                 (winner == p2.getDenot()) ? "Player" : "Bot");                  
         break;
-      } else if(isOver()){       
+      } else if(isOver() || !isWinnable(p1.getDenot())){       
         out.println("Draw.\n");
+        break;
       }
       
     }
@@ -118,6 +119,28 @@ public class TicTacToe {
 
   public Denotation getWinner() {
     return winner;
+  }
+
+  private boolean isWinnable(Denotation denot) {
+    int pattern = 0b000000000;  // 9-bit pattern for the 9 cells
+    Board b = board.getState();
+    b.fillEmpty(denot);
+    int s = board.size();
+    for (int i = 0; i < s; ++i) {
+      for (int j = 0; j < s; ++j) {
+        if (b.cell(i, j) == denot) {
+          pattern = pattern | (1 << (i * s + j));
+        }
+      }
+    }
+
+    for (int winningPattern : WINS) {
+      if ((pattern & winningPattern) == winningPattern) {
+        return true;
+      }
+    }
+    
+    return false;
   }
   
 }
