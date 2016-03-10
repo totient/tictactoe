@@ -15,8 +15,10 @@ public class MinimaxTest {
     IPlayer p2 = new MinimBot(out);
     TicTacToe game = new TicTacToe(out);    
     
-    game.reset();
-    game.start(p1, p2);
+    for(int i=0; i<100; i++) {
+      game.reset();
+      game.start(p1, p2);      
+    }
     
     assertEquals(EMPTY, game.getWinner());      
   }
